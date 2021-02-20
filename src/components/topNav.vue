@@ -12,7 +12,8 @@
       </li>
       <li>
         <span>
-            <a href="/#/index" style="font-size:14px;font-weight:400;">主页</a>
+            <!-- <a href="/#/index" style="font-size:14px;font-weight:400;">主页</a> -->
+            <router-link to="/index" style="font-size:14px;font-weight:400;">主页</router-link>
         </span>
       </li>
       <li>
@@ -21,12 +22,12 @@
             分类<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-for="(t,index) in tags" v-bind:key="index" :command="t">{{t+'a'}}</el-dropdown-item>
+            <el-dropdown-item v-for="(t,index) in tags" v-bind:key="index" :command="t">{{t}}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </li>
       <li>
-        <span @click="logOrReg" style="cursor: pointer;" v-show="false">注册 / 登录</span>
+        <span @click="logOrReg" style="cursor: pointer;" v-show="true">注册 / 登录</span>
         <img :src="picurl" v-show="isLogin" @click="toBack" style="cursor:pointer;"/>
       </li>
     </ul>
@@ -38,7 +39,7 @@ export default {
   name: "topNav",
   data() {
     return {
-      tags: ["前端", "算法"],
+      tags: ["test", "JavaScript"],
       isLogin: false,
       picurl: "../assets/picture/face.jpg"
     };

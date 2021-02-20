@@ -2,7 +2,11 @@
   <div id="mainData">
     <div class="articles" v-for="(a, index) in articles" v-bind:key="index">
       <div class="head">
-        <p><router-link :to="'/index/article/'+a._id">{{ a.title }}</router-link></p>
+        <p>
+          <router-link :to="'/index/article/' + a._id">{{
+            a.title
+          }}</router-link>
+        </p>
         <p>Published: {{ a.predate }} By: {{ a.writer }}</p>
       </div>
       <div class="content">
@@ -11,19 +15,33 @@
       <div class="foot">
         <p>
           tags:
-          <a v-for="t in a.tags.toString().split('\\')" v-bind:key="t" href="/index"> {{ t }} / </a>
+          <a
+            v-for="t in a.tags.toString().split('\\')"
+            v-bind:key="t"
+            href="/index"
+          >
+            {{ t }} /
+          </a>
           comments: {{ a.totalComments }}
         </p>
       </div>
     </div>
     <div class="ll">
-      <el-pagination class="msg-pagination-container" background layout="prev, pager, next" :page-size="pageSize" :total="totalNum" :current-page="pageNum">
+      <el-pagination
+        class="msg-pagination-container"
+        background
+        layout="prev, pager, next"
+        :page-size="pageSize"
+        :total="totalNum"
+        :current-page="pageNum"
+      >
       </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
+//展示博客列表
 export default {
   name: "mainData",
   data() {
@@ -36,7 +54,7 @@ export default {
           precontent: "this is my first writer",
           tags: ["vue", "javascript"],
           totalComments: "0",
-          id: '123'
+          id: "123",
         },
         {
           title: "try",
@@ -45,45 +63,51 @@ export default {
           precontent: "this is my first writer",
           tags: ["vue", "javascript"],
           totalComments: "0",
-          id: '456'
-        }
+          id: "456",
+        },
       ],
       totalNum: 100,
       pageNum: 1,
-      pageSize: 10
+      pageSize: 10,
     };
   },
   created() {
-    let type = this.$route.params.type || ""
-    // console.log('type: ',type)
-    console.log(1)
-    this.$axios.get('index/getArticleList',{
-      params:{
-        limit: this.pageSize,
-        page: this.pageNum,
-        type: type
-      }
-    }).then(res => {
-      // console.log(res)
-      this.totalNum = res.data.totalNum
-      this.articles = res.data.articles
-    })
+    // console.log("thispagea", this.$route.params);
+    let type = this.$route.params.type || "";
+    // console.log("createtype: ", type);
+    this.$axios
+      .get("index/getArticleList", {
+        params: {
+          limit: this.pageSize,
+          page: this.pageNum,
+          type: type,
+        },
+      })
+      .then((res) => {
+        // console.log(res)
+        this.totalNum = res.data.totalNum;
+        this.articles = res.data.articles;
+      });
   },
-  beforeRouteUpdate(to, from, next){
-        let type = this.$route.params.type || ""
-    this.$axios.get('index/getArticleList',{
-      params:{
-        limit: this.pageSize,
-        page: this.pageNum,
-        type: type
-      }
-    }).then(res => {
-      // console.log(res)
-      this.totalNum = res.data.totalNum
-      this.articles = res.data.articles
-    })
-}
-
+  watch: {
+    $route: function (to, from) {
+      let type = to.params.type || "";
+      // console.log("updatetype: ", type);
+      this.$axios
+        .get("index/getArticleList", {
+          params: {
+            limit: this.pageSize,
+            page: this.pageNum,
+            type: type,
+          },
+        })
+        .then((res) => {
+          // console.log(res)
+          this.totalNum = res.data.totalNum;
+          this.articles = res.data.articles;
+        });
+    },
+  },
 };
 </script>
 

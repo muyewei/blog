@@ -23,7 +23,7 @@
           </div>
           <div class="demo-name">
             <ul>
-              <li><a href="cl.blog">{{cl.user}}</a></li>
+              <li><a :href="cl.blog" class="commentuser">{{cl.user}}</a></li>
               <li>{{cl.cdate}}</li>
             </ul>
           </div>
@@ -36,13 +36,13 @@
       </div>
     </div>
     <div id="speak">
-      <el-form ref="form" :model="form" label-width="80px">
+      <el-form ref="form" :model="form" label-width="80px" class="elform">
         <el-form-item label="评论">
           <el-input
             type="textarea"
             v-model="form.comment"
             placeholder="your comment"
-            class="fComment"
+            :rows="7"
           ></el-input>
         </el-form-item>
         <el-form-item label="你的名字*">
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+//打开博客内容页面
 export default {
   name: "myarticle",
   data() {
@@ -119,7 +120,8 @@ export default {
   methods: {
     reply(i) {
       let r = document.querySelectorAll('.footer')[i].innerHTML
-      this.form.comment = "~*" + r + "*~\n" + this.form.comment
+      let u = "回复：" + document.querySelectorAll('.commentuser')[i].innerHTML + ":"
+      this.form.comment = "<blockquote>\n<pre>" + u +"</pre>\n<br/>"+ r + "\n</blockquote>\n" + this.form.comment
     },
     getMyArticle(){
       this.$axios.get('index/getMyArticle',{
@@ -215,10 +217,19 @@ textarea{
   padding: 20px;
   background-color: rgb(221, 221, 221);
 }
-.mavon >>> div{
+/* .mavon >>> div{
   padding-left: 0px!important;
-}
+} */
 .footer{
   margin-top: 20px;
+}
+@media screen and (max-width: 500px){
+  #main{
+    padding: 10px;
+  }
+  #speak{
+    width: 100%;
+    padding: 50px 0px 20px 0px;
+  }
 }
 </style>

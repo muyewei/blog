@@ -53,8 +53,7 @@ export default {
       this.showlor = false
     },
     getTypeArticle(t){
-      console.log(t)
-      this.$router.push('/index/' + t)
+      this.$router.push({ path: `/index/${t}` })
     }
   }
 };
